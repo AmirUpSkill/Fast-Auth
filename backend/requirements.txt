@@ -1,0 +1,21 @@
+# Core Framework
+fastapi
+uvicorn
+starlette
+
+# Database & ORM
+sqlalchemy
+psycopg2-binary
+alembic
+greenlet
+
+# Authentication & Security
+python-jose
+passlib
+bcrypt
+cryptography
+
+# Configuration & Communication
+python-dotenv
+httpx
+httpcore
