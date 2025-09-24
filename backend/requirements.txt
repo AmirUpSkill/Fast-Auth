@@ -19,3 +19,6 @@ cryptography
 python-dotenv
 httpx
 httpcore
+pydantic-settings
+# Testing
+pytest
