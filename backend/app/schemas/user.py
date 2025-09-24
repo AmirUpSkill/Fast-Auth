@@ -1,6 +1,6 @@
 import uuid 
 from datetime import datetime 
-from pydantic import BaseModel 
+from pydantic import BaseModel, ConfigDict 
 
 # --- Base Schema --- 
 class UserBase(BaseModel):
@@ -22,6 +22,6 @@ class User(UserBase):
     id: uuid.UUID
     created_at: datetime 
     # --- Config --- 
-    model_config = ConfigDict(
+    model_config = ConfigDict(  
         from_attributes=True,
     )

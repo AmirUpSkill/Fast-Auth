@@ -9,6 +9,9 @@ class Settings(BaseSettings):
     GOOGLE_CLIENT_ID: str = Field(..., env="GOOGLE_CLIENT_ID")
     
     GOOGLE_CLIENT_SECRET: str = Field(..., env="GOOGLE_CLIENT_SECRET")
+
+    # --- Access Token ---
+    FRONTEND_URL: str = Field(..., env="FRONTEND_URL")
     
     # --- Secret Management Configuration  ---
     SECRET_KEY: str = Field(..., env="SECRET_KEY")
