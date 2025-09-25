@@ -4,7 +4,7 @@ import { ThemeToggle } from '@/components/ui/theme-toggle';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Zap } from 'lucide-react'; 
-import { APP_NAME } from '@/lib/constants';
+const APP_NAME = 'FastAuth'; 
 
 export function Header() {
   return (

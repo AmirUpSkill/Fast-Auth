@@ -1,16 +1,11 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist } from "next/font/google";
 import { ThemeProvider } from 'next-themes';
 import "./globals.css";
-import { Header } from '@/components/layout/header';
+import { Header } from '@/components/layout/header'; 
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
   subsets: ["latin"],
 });
 
@@ -26,7 +21,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${geistSans.variable} ${geistMono.variable} font-sans antialiased`}>
+      <body className={`${geistSans.variable} font-sans antialiased`}>
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"
@@ -34,7 +29,8 @@ export default function RootLayout({
           disableTransitionOnChange={false}
         >
           <Header />
-          <main className="min-h-screen bg-background">
+          {/* Your AuthPage will be rendered inside this main tag */}
+          <main className="bg-background">
             {children}
           </main>
         </ThemeProvider>
