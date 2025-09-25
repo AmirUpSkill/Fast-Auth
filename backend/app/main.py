@@ -8,4 +8,4 @@ app = FastAPI(title="Fast Auth API", openapi_url="/api/v1/openapi.json")
 async def root():
     return {"message": "Fast Auth is running!"}
 
-app.include_router(api_router, prefix="/api/v1")
+app.include_router(api_router)
