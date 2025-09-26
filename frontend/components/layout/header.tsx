@@ -1,44 +1,47 @@
-'use client';  
+'use client';
 
-import { ThemeToggle } from '@/components/ui/theme-toggle'; 
+import { ThemeToggle } from '@/components/ui/theme-toggle';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { Zap } from 'lucide-react'; 
-const APP_NAME = 'FastAuth'; 
+import { Zap } from 'lucide-react';
+import { useAuth } from '@/providers/auth-provider';
+import { UserNav } from './user-nav'; 
+
+const APP_NAME = 'Fast Auth';
 
 export function Header() {
+  const { user, isLoading } = useAuth();
+
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 transition-all duration-300">
+    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-14 items-center justify-between">
-        <Link href="/" className="flex items-center space-x-3 transition-all hover:scale-105">
-          <div className="p-2 bg-primary/10 rounded-lg transition-colors hover:bg-primary/20">
-            <Zap className="h-5 w-5 text-primary" />  
+        <Link href="/" className="flex items-center space-x-2">
+          <div className="p-2 bg-primary/10 rounded-lg">
+            <Zap className="h-5 w-5 text-primary" />
           </div>
-          <span className="font-bold text-xl tracking-tight bg-gradient-to-r from-foreground to-primary/80 bg-clip-text text-transparent">
-            {APP_NAME}
-          </span>
+          <span className="font-bold text-lg tracking-tight">{APP_NAME}</span>
         </Link>
-        
+
         <div className="flex items-center space-x-2">
-          <ThemeToggle />  
-          
-          <div className="hidden md:flex items-center space-x-2">
-            <Link href="/auth">
-              <Button variant="ghost" size="sm" className="transition-all hover:scale-105">
-                Sign In
-              </Button>
-            </Link>
-            <Link href="/auth">
-              <Button size="sm" className="btn-primary transition-all hover:scale-105 shadow-md">
-                Get Started
-              </Button>
-            </Link>
-          </div>
-          <div className="md:hidden">
-            <Button variant="ghost" size="sm" className="p-2">
-              ☰
-            </Button>
-          </div>
+          <ThemeToggle />
+
+          {isLoading ? (
+            // Skeleton loader while checking auth state
+            <div className="h-9 w-24 rounded-md bg-muted animate-pulse" />
+          ) : user ? (
+            // Show UserNav if authenticated
+            <UserNav />
+          ) : (
+            // Show Sign In buttons if not authenticated
+            <div className="hidden md:flex items-center space-x-2">
+              <Link href="/auth">
+                <Button variant="ghost" size="sm">Sign In</Button>
+              </Link>
+              <Link href="/auth">
+                <Button size="sm">Get Started</Button>
+              </Link>
+            </div>
+          )}
         </div>
       </div>
     </header>

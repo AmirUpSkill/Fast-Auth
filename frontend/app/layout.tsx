@@ -1,17 +1,17 @@
+// app/layout.tsx
 import type { Metadata } from "next";
-import { Geist } from "next/font/google";
-import { ThemeProvider } from 'next-themes';
+import { Inter } from "next/font/google";
 import "./globals.css";
-import { Header } from '@/components/layout/header'; 
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
+import { ThemeProvider } from "next-themes";
+import { AuthProvider } from "@/providers/auth-provider";
+import { Header } from "@/components/layout/header";
+
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: 'Fast Auth',
-  description: 'Authentication Made Simple',
+  title: "Fast Auth",
+  description: "Authentication Made Simple",
 };
 
 export default function RootLayout({
@@ -21,18 +21,17 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${geistSans.variable} font-sans antialiased`}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="dark"
+      <body className={inter.className}>
+        <ThemeProvider 
+          attribute="class" 
+          defaultTheme="dark" 
           enableSystem
-          disableTransitionOnChange={false}
+          disableTransitionOnChange
         >
-          <Header />
-          {/* Your AuthPage will be rendered inside this main tag */}
-          <main className="bg-background">
+          <AuthProvider>
+            <Header />
             {children}
-          </main>
+          </AuthProvider>
         </ThemeProvider>
       </body>
     </html>
