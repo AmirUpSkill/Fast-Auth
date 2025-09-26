@@ -1,27 +1,27 @@
-import uuid 
-from datetime import datetime 
-from pydantic import BaseModel, ConfigDict 
+from pydantic import BaseModel, EmailStr
+from typing import Optional
+from datetime import datetime
+import uuid
 
-# --- Base Schema --- 
 class UserBase(BaseModel):
-    """
-        Base Schema for a User 
-    """
-    email: str 
-    name: str 
-    avatar_url: str | None = None 
+    email: EmailStr
+    name: str
+    avatar_url: Optional[str] = None
 
 class UserCreate(UserBase):
-    pass 
+    pass
 
-# --- Read/Response Schema --- 
-class User(UserBase):
-    """
-        Schema for returning a user form the API 
-    """
+class UserUpdate(BaseModel):
+    name: Optional[str] = None
+    avatar_url: Optional[str] = None
+
+class UserInDB(UserBase):
     id: uuid.UUID
-    created_at: datetime 
-    # --- Config --- 
-    model_config = ConfigDict(  
-        from_attributes=True,
-    )
+    created_at: datetime
+    
+    class Config:
+        from_attributes = True
+
+class UserResponse(UserInDB):
+    """Schema for returning a user from the API"""
+    pass

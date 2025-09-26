@@ -1,4 +1,5 @@
-from sqlalchemy.orm import declarative_base
+from app.db.base_class import Base
+# --- Centrilise  Model --- 
+from app.models.user import User
 
-# --- Base Class For ORM --- 
-Base = declarative_base()
+__all__ = ["Base"]

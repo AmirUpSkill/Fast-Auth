@@ -5,18 +5,17 @@ from sqlalchemy.orm import Session
 
 from app.core.config import settings
 from app.db.session import get_db
-from app.models.user import User
-from app.schemas.user import User as UserSchema
-from app.services.user_service import user_service 
+from app.models.user import User  
+from app.schemas.user import UserResponse 
+from app.services.user_service import user_service
 
-# Custom exception for credentials
 credentials_exception = HTTPException(
     status_code=status.HTTP_401_UNAUTHORIZED,
     detail="Could not validate credentials",
     headers={"WWW-Authenticate": "Bearer"},
 )
 
-async def get_current_user(
+def get_current_user(  
     request: Request, 
     db: Annotated[Session, Depends(get_db)]
 ) -> User:
@@ -25,10 +24,10 @@ async def get_current_user(
     Reads token from HttpOnly cookie, validates it, and fetches user from DB.
     """
     token = request.cookies.get("access_token")
-
+    
     if token is None:
         raise credentials_exception
-
+    
     try:
         payload = jwt.decode(
             token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM]
@@ -39,11 +38,11 @@ async def get_current_user(
     except JWTError:
         raise credentials_exception
     
-    user = user_service.get_user_by_email(db, email=email)
+    user = user_service.get_by_email(db, email=email)
     
     if user is None:
         raise credentials_exception
-        
+    
     return user
 
-CurrentUser = Annotated[UserSchema, Depends(get_current_user)]
+CurrentUser = Annotated[User, Depends(get_current_user)]

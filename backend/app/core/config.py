@@ -10,8 +10,9 @@ class Settings(BaseSettings):
     
     GOOGLE_CLIENT_SECRET: str = Field(..., env="GOOGLE_CLIENT_SECRET")
 
-    # --- Access Token ---
+    # --- Url For Redirection  ---
     FRONTEND_URL: str = Field(..., env="FRONTEND_URL")
+    BACKEND_URL: str = Field(..., env="BACKEND_URL")
     
     # --- Secret Management Configuration  ---
     SECRET_KEY: str = Field(..., env="SECRET_KEY")

@@ -48,17 +48,22 @@ class AuthService:
             )
         # --- Step 3 : Upsert user in DB --- 
         user_in = UserCreate(
-            email = email,
+            email=email,
             name=name or email.split("@")[0],
-            avatar_url = picture 
-
+            avatar_url=picture 
         )
-        user = user_service.get_or_create(db=db,user_in=user_in)
+        user = user_service.get_or_create(db=db, user_in=user_in)
         # --- Step 4 : Create JWT session token ---
         jwt_token = create_access_token(data={"sub": user.email})
         return jwt_token
+    
     async def _exchange_code_for_token(self, code: str) -> dict:
         """Exchanges OAuth code for access token."""
+        redirect_uri = f"{settings.BACKEND_URL}/api/v1/auth/google/callback"
+        
+    
+        print(f"DEBUG: AuthService token exchange redirect_uri: {redirect_uri}")
+        
         async with httpx.AsyncClient() as client:
             response = await client.post(
                 self.GOOGLE_TOKEN_URL,
@@ -67,10 +72,11 @@ class AuthService:
                     "client_secret": settings.GOOGLE_CLIENT_SECRET,
                     "code": code,
                     "grant_type": "authorization_code",
-                    "redirect_uri": f"{settings.FRONTEND_URL}/api/v1/auth/google/callback",
+                    "redirect_uri": redirect_uri,  
                 },
                 headers={"Accept": "application/json"},
             )
+        
         if response.status_code != 200:
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
@@ -93,5 +99,5 @@ class AuthService:
         return response.json()
 
 
-# Singleton instance
+#  ---  Singleton instance ---- 
 auth_service = AuthService()
