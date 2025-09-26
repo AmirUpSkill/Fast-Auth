@@ -11,7 +11,7 @@ router = APIRouter()
 @router.get("/me", response_model=UserResponse)
 async def get_current_user(request: Request, db: Session = Depends(get_db)):
     """Get current authenticated user"""
-    # Get token from httpOnly cookie
+    # ---  Get token from httpOnly cookie ----
     token = request.cookies.get("access_token")
     if not token:
         raise HTTPException(
@@ -20,7 +20,7 @@ async def get_current_user(request: Request, db: Session = Depends(get_db)):
         )
     
     try:
-        # Decode JWT token to get user email
+        # --- Decode JWT token to get user email ----
         payload = decode_access_token(token)
         user_email = payload.get("sub")
         if not user_email:
@@ -29,7 +29,7 @@ async def get_current_user(request: Request, db: Session = Depends(get_db)):
                 detail="Invalid token payload"
             )
         
-        # Get user from database
+        # ---  Get user from database ----
         user = user_service.get_by_email(db=db, email=user_email)
         if not user:
             raise HTTPException(

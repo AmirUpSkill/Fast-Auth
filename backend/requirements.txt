@@ -1,24 +1,24 @@
-# Core Framework
+# --- Core Dev ---
 fastapi
 uvicorn
 starlette
 
-# Database & ORM
+# --- Database & ORM ---
 sqlalchemy
 psycopg2-binary
 alembic
 greenlet
 
-# Authentication & Security
+# --- Authentication & Security ---
 python-jose
 passlib
 bcrypt
 cryptography
 
-# Configuration & Communication
+# ---  Configuration & Communication ---
 python-dotenv
 httpx
 httpcore
 pydantic-settings
-# Testing
+# --- Testing ---
 pytest

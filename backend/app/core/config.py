@@ -1,28 +1,30 @@
-from pydantic_settings import BaseSettings 
-from pydantic import Field               
+from pydantic_settings import BaseSettings
+from pydantic import Field
+
 
 class Settings(BaseSettings):
     # --- DB Configuration ---
-    DB_URL: str = Field(..., env="DB_URL")
+    DB_URL: str = Field(..., description="Database connection URL")
     
-    # --- Google Oauth Configuration 
-    GOOGLE_CLIENT_ID: str = Field(..., env="GOOGLE_CLIENT_ID")
+    # --- Google OAuth Configuration ---
+    GOOGLE_CLIENT_ID: str = Field(..., description="Google OAuth client ID")
+    GOOGLE_CLIENT_SECRET: str = Field(..., description="Google OAuth client secret")
     
-    GOOGLE_CLIENT_SECRET: str = Field(..., env="GOOGLE_CLIENT_SECRET")
+    # --- URL For Redirection ---
+    FRONTEND_URL: str = Field(..., description="Frontend application URL")
+    BACKEND_URL: str = Field(..., description="Backend application URL")
+    
+    # --- Secret Management Configuration ---
+    SECRET_KEY: str = Field(..., description="Secret key for JWT signing")
+    ALGORITHM: str = Field(default="HS256", description="JWT algorithm")
+    ACCESS_TOKEN_EXPIRE_MINUTES: int = Field(default=30, description="Access token expiration time in minutes")
 
-    # --- Url For Redirection  ---
-    FRONTEND_URL: str = Field(..., env="FRONTEND_URL")
-    BACKEND_URL: str = Field(..., env="BACKEND_URL")
-    
-    # --- Secret Management Configuration  ---
-    SECRET_KEY: str = Field(..., env="SECRET_KEY")
-    
-    ALGORITHM: str = Field("HS256", env="ALGORITHM")
-    
-    ACCESS_TOKEN_EXPIRE_MINUTES: int = Field(30, env="ACCESS_TOKEN_EXPIRE_MINUTES")
+    model_config = {
+        "env_file": ".env",
+        "env_file_encoding": "utf-8",
+        "case_sensitive": True,
+        "extra": "ignore"
+    }
 
-    class Config:
-        env_file = ".env"
-        env_file_encoding = 'utf-8'
 
 settings = Settings()

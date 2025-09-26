@@ -39,7 +39,7 @@ async def google_login(request: Request):
         value=state,
         httponly=True,
         max_age=600,
-        secure=False,  # False for localhost
+        secure=False,  
         samesite="lax"
     )
     return response
@@ -77,13 +77,13 @@ async def google_callback(
         value=jwt_token,
         httponly=True,
         max_age=60 * settings.ACCESS_TOKEN_EXPIRE_MINUTES,
-        secure=False,  # False for localhost development
+        secure=False,  
         samesite="lax",
-        domain="localhost",  # Explicit domain
-        path="/"  # Explicit path
+        domain="localhost",  
+        path="/" 
     )
     
-    # Clean up CSRF cookie
+    # ---  Clean up CSRF cookie ---
     response.delete_cookie("oauth_state")
     return response
 
